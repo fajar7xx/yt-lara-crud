@@ -26,7 +26,7 @@ class ItemController extends Controller
      */
     public function create()
     {
-        //
+        return view('items.create');
     }
 
     /**
@@ -37,7 +37,15 @@ class ItemController extends Controller
      */
     public function store(StoreItemRequest $request)
     {
-        //
+        $item = Item::create([
+            'name'        => $request->name,
+            'categories'  => $request->categories,
+            'weight'      => $request->weight,
+            'price'       => $request->price,
+            'description' => $request->description
+        ]);
+
+        return redirect()->route('items.index')->with('success', 'Item sudah berhasil ditambahkan');
     }
 
     /**
@@ -59,7 +67,7 @@ class ItemController extends Controller
      */
     public function edit(Item $item)
     {
-        //
+        return view('items.edit', compact('item'));
     }
 
     /**
@@ -71,7 +79,14 @@ class ItemController extends Controller
      */
     public function update(UpdateItemRequest $request, Item $item)
     {
-        //
+        $item->name        = $request->name;
+        $item->categories  = $request->categories;
+        $item->weight      = $request->weight;
+        $item->price       = $request->price;
+        $item->description = $request->description;
+        $item->save();
+
+        return redirect()->route('items.index')->with('success', 'Item sudah berhasil diubah');
     }
 
     /**
